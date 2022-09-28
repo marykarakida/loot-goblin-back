@@ -38,6 +38,6 @@ export function conflictError(message?: string): AppError {
     return { type: 'error_conflict', message: message ?? '' };
 }
 
-export function wrongSchemaError(message?: string): AppError {
+export function wrongSchemaError(message?: string | string[]): AppError {
     return { type: 'error_wrong_schema', message: message ?? '' };
 }
