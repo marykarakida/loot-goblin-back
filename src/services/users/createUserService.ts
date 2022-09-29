@@ -3,10 +3,10 @@ import userRepository from '../../repositories/users';
 import { conflictError } from '../../utlis/errorUtils';
 import { hashPassword } from '../../utlis/cryptUtils';
 
-import { User, UserDetail } from '../../types/users';
+import { RegisterData, User, UserDetail } from '../../types/users';
 
-export async function createUserService(userData: UserDetail) {
-    const { email, username, password, picture } = userData;
+export async function createUserService(userData: RegisterData) {
+    const { email, username, password, picture }: UserDetail = userData;
 
     const alreadyCreatedUserByEmail: User | null = await userRepository.findUserByEmail(email);
     const alreadyCreatedUserByUsername: User | null = await userRepository.findUserByUsername(username);

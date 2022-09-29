@@ -4,8 +4,8 @@ type UserDetail = Omit<User, 'id'>;
 
 type LoginData = Pick<User, 'email' | 'password'>;
 
-interface CreateUserData extends UserDetail {
+interface RegisterData extends UserDetail {
     passwordConfirmation: string;
 }
 
-export { User, UserDetail, CreateUserData, LoginData };
+export { User, UserDetail, RegisterData, LoginData };
