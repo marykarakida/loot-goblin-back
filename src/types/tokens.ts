@@ -7,4 +7,14 @@ interface SessionData {
     refreshToken: string;
 }
 
-export { TokenPayloadData, SessionData };
+interface RefreshSessionData {
+    refreshToken: string;
+}
+
+interface DecodeTokenReturnData {
+    isTokenValid: boolean;
+    isTokenExpired: boolean;
+    payload: TokenPayloadData | null;
+}
+
+export { TokenPayloadData, RefreshSessionData, SessionData, DecodeTokenReturnData };
