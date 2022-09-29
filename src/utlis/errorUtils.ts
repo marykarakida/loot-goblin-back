@@ -27,7 +27,7 @@ export function unauthorizedError(message?: string): AppError {
 }
 
 export function forbiddenError(message?: string): AppError {
-    return { type: 'error_unauthorized', message: message ?? '' };
+    return { type: 'error_forbidden', message: message ?? '' };
 }
 
 export function notFoundError(message?: string): AppError {
