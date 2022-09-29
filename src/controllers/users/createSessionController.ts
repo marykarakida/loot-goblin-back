@@ -6,7 +6,7 @@ import { LoginData } from '../../types/users';
 import { SessionData } from '../../types/tokens';
 
 export async function createSessionController(req: Request, res: Response) {
-    const loginData: LoginData = req.body as LoginData;
+    const loginData: LoginData = req.body;
 
     const sessionData: SessionData = await sessionService.createSession(loginData);
 

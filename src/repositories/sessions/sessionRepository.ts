@@ -1,6 +1,6 @@
 import prisma from '../../database';
-import { SessionDetail } from '../../types/sessions';
+import { CreateSessionData } from '../../types/sessions';
 
-export async function createSession(sessionData: SessionDetail): Promise<void> {
+export async function createSession(sessionData: CreateSessionData): Promise<void> {
     await prisma.session.create({ data: sessionData });
 }

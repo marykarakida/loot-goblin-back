@@ -1,9 +1,9 @@
 import { createSession } from './sessionRepository';
 
-import { SessionDetail } from '../../types/sessions';
+import { CreateSessionData } from '../../types/sessions';
 
 interface ISessionRepository {
-    createSession(sessionData: SessionDetail): Promise<void>;
+    createSession(sessionData: CreateSessionData): Promise<void>;
 }
 
 const sessionRepository: ISessionRepository = {

@@ -1,5 +1,8 @@
 import { Session } from '@prisma/client';
 
-type SessionDetail = Omit<Session, 'id'>;
+interface CreateSessionData {
+    userId: string;
+    refreshToken: string;
+}
 
-export { Session, SessionDetail };
+export { Session, CreateSessionData };

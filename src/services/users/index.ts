@@ -1,9 +1,9 @@
 import { createUserService } from './createUserService';
 
-import { UserDetail } from '../../types/users';
+import { CreateUserData } from '../../types/users';
 
 interface IUserService {
-    createUser(userData: UserDetail): Promise<void>;
+    createUser(userData: CreateUserData): Promise<void>;
 }
 
 const userService: IUserService = { createUser: createUserService };

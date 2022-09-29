@@ -1,6 +1,6 @@
 import prisma from '../../database';
 
-import { User, UserDetail } from '../../types/users';
+import { User, CreateUserData } from '../../types/users';
 
 export async function findUserByEmail(email: string): Promise<User | null> {
     const result = await prisma.user.findUnique({ where: { email } });
@@ -14,6 +14,6 @@ export async function findUserByUsername(username: string): Promise<User | null>
     return result;
 }
 
-export async function createUser(userData: UserDetail): Promise<void> {
+export async function createUser(userData: CreateUserData): Promise<void> {
     await prisma.user.create({ data: userData });
 }

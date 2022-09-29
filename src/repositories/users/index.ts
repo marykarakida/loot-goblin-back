@@ -1,11 +1,11 @@
 import { findUserByEmail, findUserByUsername, createUser } from './userRepository';
 
-import { User, UserDetail } from '../../types/users';
+import { User, CreateUserData } from '../../types/users';
 
 interface IUserRepository {
     findUserByEmail(email: string): Promise<User | null>;
     findUserByUsername(username: string): Promise<User | null>;
-    createUser(userData: UserDetail): Promise<void>;
+    createUser(userData: CreateUserData): Promise<void>;
 }
 
 const userRepository: IUserRepository = {
