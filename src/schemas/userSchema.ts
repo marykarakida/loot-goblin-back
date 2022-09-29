@@ -9,3 +9,8 @@ export const createUserSchema = Joi.object({
     }),
     picture: Joi.string().trim().uri().required(),
 });
+
+export const loginSchema = Joi.object({
+    email: Joi.string().trim().email().required(),
+    password: Joi.string().required(),
+});

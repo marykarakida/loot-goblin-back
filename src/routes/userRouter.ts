@@ -1,12 +1,12 @@
 import { Router } from 'express';
 
-import { createUserController } from '../controllers/users';
+import { createSessionController, createUserController } from '../controllers/users';
 import { validateSchema } from '../middlewares/validateSchemaMiddleware';
 
 const userRouter = Router();
 
 userRouter.post('/', validateSchema('createUserSchema'), createUserController);
-userRouter.post('/login');
+userRouter.post('/login', validateSchema('loginSchema'), createSessionController);
 userRouter.post('/logout');
 userRouter.post('/token/refresh');
 

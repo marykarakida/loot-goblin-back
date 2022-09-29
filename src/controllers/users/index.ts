@@ -1,3 +1,4 @@
+import { createSessionController } from './createSessionController';
 import { createUserController } from './createUserController';
 
-export { createUserController };
+export { createUserController, createSessionController };

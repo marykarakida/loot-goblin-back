@@ -6,3 +6,7 @@ export function hashPassword(password: string): string {
 
     return hashedPassword;
 }
+
+export function verifyPassword(password: string, hashedPassword: string): boolean {
+    return bcrypt.compareSync(password, hashedPassword);
+}
