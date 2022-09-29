@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 
 import userService from '../../services/users';
+
 import { CreateUserData, UserDetail } from '../../types/users';
 
 export async function createUserController(req: Request, res: Response) {

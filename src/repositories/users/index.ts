@@ -2,7 +2,7 @@ import { findUserByEmail, findUserByUsername, createUser } from './userRepositor
 
 import { User, UserDetail } from '../../types/users';
 
-export interface IUserRepository {
+interface IUserRepository {
     findUserByEmail(email: string): Promise<User | null>;
     findUserByUsername(username: string): Promise<User | null>;
     createUser(userData: UserDetail): Promise<void>;
