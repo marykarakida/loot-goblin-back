@@ -10,6 +10,18 @@ import userFactory from '../../factories/userFactory';
 const server = supertest(app);
 
 describe('POST /users', () => {
+    const createUserData = {
+        email: faker.internet.email(),
+        username: faker.internet.userName(),
+        picture: faker.internet.avatar(),
+        password: faker.internet.password(),
+    };
+
+    const registerData = {
+        ...createUserData,
+        passwordConfirmation: createUserData.password,
+    };
+
     beforeEach(async () => {
         await deleteAllData();
     });
@@ -20,15 +32,8 @@ describe('POST /users', () => {
 
     describe('given that register data is valid', () => {
         it('should return status code 201 and create a new account', async () => {
-            const validUserData = {
-                email: faker.internet.email(),
-                username: faker.internet.userName(),
-                picture: faker.internet.avatar(),
-                password: faker.internet.password(),
-            };
-
-            const result = await server.post('/users').send({ ...validUserData, passwordConfirmation: validUserData.password });
-            const createdUser = await prisma.user.findUnique({ where: { email: validUserData.email } });
+            const result = await server.post('/users').send(registerData);
+            const createdUser = await prisma.user.findUnique({ where: { email: registerData.email } });
 
             expect(result.status).toBe(201);
             expect(createdUser).not.toBeNull();
@@ -37,59 +42,19 @@ describe('POST /users', () => {
 
     describe('given that register data is empty', () => {
         it('should return status code 422', async () => {
-            const invalidUserData = {};
+            const invalidRegisterData = {};
 
-            const result = await server.post('/users').send(invalidUserData);
+            const result = await server.post('/users').send(invalidRegisterData);
 
             expect(result.status).toBe(422);
         });
     });
 
-    describe('given that email is already linked to an account', () => {
+    describe('given that email is already linked to an account and/or username is already taken', () => {
         it('should return status code 409', async () => {
-            const validUserData = {
-                email: faker.internet.email(),
-                username: faker.internet.userName(),
-                picture: faker.internet.avatar(),
-                password: faker.internet.password(),
-            };
+            await userFactory(createUserData);
 
-            await userFactory(validUserData);
-
-            const invalidUserDataWithSameEmailDifferentUsername = {
-                ...validUserData,
-                username: faker.internet.userName(),
-            };
-
-            const result = await server.post('/users').send({
-                ...invalidUserDataWithSameEmailDifferentUsername,
-                passwordConfirmation: invalidUserDataWithSameEmailDifferentUsername.password,
-            });
-
-            expect(result.status).toBe(409);
-        });
-    });
-
-    describe('given that email is already linked to an account', () => {
-        it('should return status code 409', async () => {
-            const validUserData = {
-                email: faker.internet.email(),
-                username: faker.internet.userName(),
-                picture: faker.internet.avatar(),
-                password: faker.internet.password(),
-            };
-
-            await userFactory(validUserData);
-
-            const invalidUserDataWithSameUsernameDifferentEmail = {
-                ...validUserData,
-                email: faker.internet.email(),
-            };
-
-            const result = await server.post('/users').send({
-                ...invalidUserDataWithSameUsernameDifferentEmail,
-                passwordConfirmation: invalidUserDataWithSameUsernameDifferentEmail.password,
-            });
+            const result = await server.post('/users').send(registerData);
 
             expect(result.status).toBe(409);
         });
