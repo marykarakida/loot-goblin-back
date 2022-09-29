@@ -4,16 +4,17 @@ import { SignOptions } from 'jsonwebtoken';
 import prisma from '../../src/database';
 
 import { signJwt } from '../../src/utlis/jwtUtils';
-import { TokenPayloadData } from '../../src/types/tokens';
+
+import { CreateSessionData } from '../../src/types/sessions';
 
 export default async function sessionFactory(userId: string, options?: SignOptions) {
-    const payload: TokenPayloadData = { id: userId };
-    const secretKey = faker.datatype.uuid();
+    const createdSessionData: CreateSessionData = {
+        userId,
+        refreshToken: signJwt({ id: userId }, process.env.REFRESH_TOKEN_SECRET as string, {
+            expiresIn: process.env.REFRESH_TOKEN_EXPIRE as string,
+            ...options,
+        }),
+    };
 
-    return prisma.session.create({
-        data: {
-            userId,
-            refreshToken: signJwt(payload, secretKey, options),
-        },
-    });
+    return prisma.session.create({ data: createdSessionData });
 }
