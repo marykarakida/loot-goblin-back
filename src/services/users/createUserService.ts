@@ -3,7 +3,7 @@ import { conflictError } from '../../utlis/errorUtils';
 import { hashPassword } from '../../utlis/cryptUtils';
 import { UserDetail } from '../../types/users';
 
-export async function createUser(userData: UserDetail) {
+export async function createUserService(userData: UserDetail) {
     const { email, username, password, picture } = userData;
 
     const alreadyCreatedUserByEmail = await userRepository.findUserByEmail(email);

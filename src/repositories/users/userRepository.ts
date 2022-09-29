@@ -2,14 +2,14 @@ import prisma from '../../database';
 
 import { User, UserDetail } from '../../types/users';
 
-export function findUserByEmail(email: string): Promise<User | null> {
-    const result = prisma.user.findUnique({ where: { email } });
+export async function findUserByEmail(email: string): Promise<User | null> {
+    const result = await prisma.user.findUnique({ where: { email } });
 
     return result;
 }
 
-export function findUserByUsername(username: string): Promise<User | null> {
-    const result = prisma.user.findUnique({ where: { username } });
+export async function findUserByUsername(username: string): Promise<User | null> {
+    const result = await prisma.user.findUnique({ where: { username } });
 
     return result;
 }
