@@ -4,22 +4,11 @@ import { faker } from '@faker-js/faker';
 import app from '../../../src/app';
 import prisma from '../../../src/database';
 
-import { deleteAllData, disconnectPrisma } from '../../factories/scenarioFactory';
-import userFactory from '../../factories/userFactory';
-import sessionFactory from '../../factories/sessionFactory';
+import { createScenarioOneUserWithOneSession, deleteAllData, disconnectPrisma } from '../../factories/scenarioFactory';
 
 const server = supertest(app);
 
 describe('POST /users/login', () => {
-    const createUserData = {
-        email: faker.internet.email(),
-        username: faker.internet.userName(),
-        picture: faker.internet.avatar(),
-        password: faker.internet.password(),
-    };
-
-    const loginData = { email: createUserData.email, password: createUserData.password };
-
     beforeEach(async () => {
         await deleteAllData();
     });
@@ -30,7 +19,7 @@ describe('POST /users/login', () => {
 
     describe('given that login data is valid', () => {
         it('should return status code 200, an access and refresh token and create new session', async () => {
-            await userFactory(createUserData);
+            const { loginData } = await createScenarioOneUserWithOneSession();
 
             const result = await server.post('/users/login').send(loginData);
 
@@ -43,8 +32,7 @@ describe('POST /users/login', () => {
 
     describe('given that login data is valid and user already has one or more active sessions', () => {
         it('should return status code 200, an access and refresh token and allow to create multiple session', async () => {
-            const user = await userFactory(createUserData);
-            await sessionFactory(user.id);
+            const { user, loginData } = await createScenarioOneUserWithOneSession();
 
             const result = await server.post('/users/login').send(loginData);
 
@@ -57,7 +45,8 @@ describe('POST /users/login', () => {
 
     describe('given that no account is linked to the email sent in login data', () => {
         it('should return status code 401 and not create a new session', async () => {
-            const result = await server.post('/users/login').send(loginData);
+            const invalidloginData = { email: faker.internet.email(), password: faker.internet.password() };
+            const result = await server.post('/users/login').send(invalidloginData);
 
             expect(result.status).toBe(401);
         });
@@ -65,7 +54,7 @@ describe('POST /users/login', () => {
 
     describe('given that wrong password to an existing account was sent in login data', () => {
         it('should return status code 401 and not create a new session', async () => {
-            await userFactory(createUserData);
+            const { loginData } = await createScenarioOneUserWithOneSession();
 
             const loginDataWithWrongPwd = { ...loginData, password: faker.internet.password() };
 
