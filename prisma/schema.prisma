@@ -16,4 +16,6 @@ model User {
   username String @unique
   password String
   picture  String
+
+  @@map("users")
 }
