@@ -1,5 +1,4 @@
 import { faker } from '@faker-js/faker';
-import jwt from 'jsonwebtoken';
 
 import sessionService from '../../../src/services/sessions';
 import sessionRepository from '../../../src/repositories/sessions';
@@ -34,7 +33,6 @@ describe('Create Session Service', () => {
     describe('given that login data is valid', () => {
         it('should create a session and return an access token and a refresh token', async () => {
             jest.spyOn(userRepository, 'findUserByEmail').mockResolvedValueOnce(mockUser);
-
             jest.spyOn(jwtUtils, 'signJwt').mockReturnValueOnce(mockAccessToken);
             jest.spyOn(jwtUtils, 'signJwt').mockReturnValueOnce(mockRefreshToken);
             jest.spyOn(sessionRepository, 'createSession').mockResolvedValueOnce();
@@ -55,6 +53,7 @@ describe('Create Session Service', () => {
     describe('given that no account is linked to the email sent in login data', () => {
         it('should not create a new session', async () => {
             jest.spyOn(userRepository, 'findUserByEmail').mockResolvedValueOnce(null);
+            jest.spyOn(sessionRepository, 'createSession');
 
             await expect(sessionService.createSession(mockLoginData)).rejects.toEqual(
                 expect.objectContaining({ type: 'error_unauthorized' })
@@ -72,6 +71,7 @@ describe('Create Session Service', () => {
             const mockInvalidLoginData = { ...mockLoginData, password: faker.internet.password() };
 
             jest.spyOn(userRepository, 'findUserByEmail').mockResolvedValueOnce(mockUser);
+            jest.spyOn(sessionRepository, 'createSession');
 
             await expect(sessionService.createSession(mockInvalidLoginData)).rejects.toEqual(
                 expect.objectContaining({ type: 'error_unauthorized' })

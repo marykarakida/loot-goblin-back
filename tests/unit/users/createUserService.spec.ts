@@ -28,7 +28,7 @@ describe('Create User Service', () => {
         it('should create a new account', async () => {
             jest.spyOn(userRepository, 'findUserByEmail').mockResolvedValueOnce(null);
             jest.spyOn(userRepository, 'findUserByUsername').mockResolvedValueOnce(null);
-            jest.spyOn(userRepository, 'createUser').mockResolvedValueOnce();
+            jest.spyOn(userRepository, 'createUser');
 
             await expect(userService.createUser(mockCreateUserData)).resolves.not.toThrow();
 
@@ -45,6 +45,7 @@ describe('Create User Service', () => {
         it('should not create a new account', async () => {
             jest.spyOn(userRepository, 'findUserByEmail').mockResolvedValueOnce(mockAlreadyCreatedUser);
             jest.spyOn(userRepository, 'findUserByUsername').mockResolvedValueOnce(null);
+            jest.spyOn(userRepository, 'createUser');
 
             await expect(userService.createUser(mockCreateUserData)).rejects.toEqual(expect.objectContaining({ type: 'error_conflict' }));
 
@@ -61,6 +62,7 @@ describe('Create User Service', () => {
         it('should not create a new account', async () => {
             jest.spyOn(userRepository, 'findUserByEmail').mockResolvedValueOnce(null);
             jest.spyOn(userRepository, 'findUserByUsername').mockResolvedValueOnce(mockAlreadyCreatedUser);
+            jest.spyOn(userRepository, 'createUser');
 
             await expect(userService.createUser(mockCreateUserData)).rejects.toEqual(expect.objectContaining({ type: 'error_conflict' }));
 
