@@ -18,9 +18,11 @@ export async function createSessionService(loginData: LoginData): Promise<Sessio
     if (!passwordValid) throw unauthorizedError('Cannot create session');
 
     const payload: TokenPayloadData = { id: user.id };
-    const accessToken: string = signJwt(payload, process.env.ACCESS_TOKEN_EXPIRE as string, { expiresIn: process.env.ACCESS_TOKEN_EXPIRE });
+    const accessToken: string = signJwt(payload, process.env.ACCESS_TOKEN_SECRET as string, {
+        expiresIn: process.env.ACCESS_TOKEN_EXPIRE as string,
+    });
     const refreshToken: string = signJwt(payload, process.env.REFRESH_TOKEN_SECRET as string, {
-        expiresIn: process.env.REFRESH_TOKEN_EXPIRE,
+        expiresIn: process.env.REFRESH_TOKEN_EXPIRE as string,
     });
 
     await sessionRepository.createSession({ userId: user.id, refreshToken });
