@@ -11,11 +11,21 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(uuid())
-  email    String @unique
-  username String @unique
+  id       String    @id @default(uuid())
+  email    String    @unique
+  username String    @unique
   password String
   picture  String
+  Session  Session[]
 
   @@map("users")
+}
+
+model Session {
+  id           String @id @default(uuid())
+  userId       String
+  User         User   @relation(fields: [userId], references: [id])
+  refreshToken String @unique
+
+  @@map("sessions")
 }
