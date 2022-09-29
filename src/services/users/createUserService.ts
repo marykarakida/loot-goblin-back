@@ -13,7 +13,7 @@ export async function createUserService(userData: UserDetail) {
         throw conflictError('Email or username is already linked to an existing account');
     }
 
-    const hashedPassword = await hashPassword(password);
+    const hashedPassword = hashPassword(password);
 
     await userRepository.createUser({ email, username, password: hashedPassword, picture });
 }
