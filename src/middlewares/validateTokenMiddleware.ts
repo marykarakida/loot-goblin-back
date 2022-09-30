@@ -7,12 +7,9 @@ import { unauthorizedError } from '../utlis/errorUtils';
 
 export async function validateToken(req: Request, res: Response, next: NextFunction) {
     const { authorization } = req.headers;
-    if (!authorization?.startsWith('Bearer ')) {
-        throw unauthorizedError('Missing valid authorization header');
-    }
+    const token = authorization?.replace('Bearer ', '');
 
-    const token = authorization.replace('Bearer ', '');
-    if (!token) {
+    if (!authorization?.startsWith('Bearer ') || !token) {
         throw unauthorizedError('Missing valid authorization header');
     }
 
