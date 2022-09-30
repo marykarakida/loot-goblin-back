@@ -1,5 +1,4 @@
 import supertest from 'supertest';
-import { faker } from '@faker-js/faker';
 
 import app from '../../../src/app';
 import prisma from '../../../src/database';
