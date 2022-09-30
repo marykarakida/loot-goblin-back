@@ -1,6 +1,12 @@
 import prisma from '../../database';
 import { CreateSessionData, Session } from '../../types/sessions';
 
+export async function findUserSessions(userId: string): Promise<Session[]> {
+    const result = await prisma.session.findMany({ where: { userId } });
+
+    return result;
+}
+
 export async function findSessionByRefreshToken(refreshToken: string): Promise<Session | null> {
     const result = await prisma.session.findUnique({ where: { refreshToken } });
 
