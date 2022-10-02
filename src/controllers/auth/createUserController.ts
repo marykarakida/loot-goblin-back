@@ -5,9 +5,9 @@ import userService from '../../services/users';
 import { RegisterData } from '../../types/users';
 
 export async function createUserController(req: Request, res: Response) {
-    const { passwordConfirmation, ...userDataWithoutPwdConfirmation }: RegisterData = req.body;
+    const userData: RegisterData = req.body;
 
-    await userService.createUser(userDataWithoutPwdConfirmation);
+    await userService.createUser(userData);
 
     res.status(201).send();
 }

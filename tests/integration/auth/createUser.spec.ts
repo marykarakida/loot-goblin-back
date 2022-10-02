@@ -9,17 +9,12 @@ import userFactory from '../../factories/userFactory';
 
 const server = supertest(app);
 
-describe('POST /users', () => {
-    const createUserData = {
+describe('POST /auth', () => {
+    const registerData = {
         email: faker.internet.email(),
         username: faker.internet.userName(),
         picture: faker.internet.avatar(),
         password: faker.internet.password(),
-    };
-
-    const registerData = {
-        ...createUserData,
-        passwordConfirmation: createUserData.password,
     };
 
     beforeEach(async () => {
@@ -32,7 +27,7 @@ describe('POST /users', () => {
 
     describe('given that register data is valid', () => {
         it('should return status code 201 and create a new account', async () => {
-            const result = await server.post('/users').send(registerData);
+            const result = await server.post('/auth').send(registerData);
             const createdUser = await prisma.user.findUnique({ where: { email: registerData.email } });
 
             expect(result.status).toBe(201);
@@ -44,7 +39,7 @@ describe('POST /users', () => {
         it('should return status code 422', async () => {
             const invalidRegisterData = {};
 
-            const result = await server.post('/users').send(invalidRegisterData);
+            const result = await server.post('/auth').send(invalidRegisterData);
 
             expect(result.status).toBe(422);
         });
@@ -52,9 +47,9 @@ describe('POST /users', () => {
 
     describe('given that email is already linked to an account and/or username is already taken', () => {
         it('should return status code 409', async () => {
-            await userFactory(createUserData);
+            await userFactory(registerData);
 
-            const result = await server.post('/users').send(registerData);
+            const result = await server.post('/auth').send(registerData);
 
             expect(result.status).toBe(409);
         });

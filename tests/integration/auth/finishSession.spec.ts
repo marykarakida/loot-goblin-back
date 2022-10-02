@@ -11,7 +11,7 @@ import { signJwt } from '../../../src/utlis/jwtUtils';
 
 const server = supertest(app);
 
-describe('POST /users/token/refresh', () => {
+describe('POST /auth/logout', () => {
     const createUserData = {
         email: faker.internet.email(),
         username: faker.internet.userName(),
@@ -37,7 +37,7 @@ describe('POST /users/token/refresh', () => {
             const accessToken = signJwt({ id: user.id }, process.env.ACCESS_TOKEN_SECRET as string);
 
             const result = await server
-                .post('/users/logout')
+                .post('/auth/logout')
                 .send({ refreshToken: currentRefreshToken })
                 .set('Authorization', `Bearer ${accessToken}`);
 
@@ -54,7 +54,7 @@ describe('POST /users/token/refresh', () => {
 
             const refreshToken = signJwt({ id: user.id }, process.env.REFRESH_TOKEN_SECRET as string);
 
-            const result = await server.post('/users/logout').send({ refreshToken });
+            const result = await server.post('/auth/logout').send({ refreshToken });
 
             expect(result.status).toBe(401);
         });
@@ -70,7 +70,7 @@ describe('POST /users/token/refresh', () => {
             const accessToken = signJwt({ id: user.id }, process.env.ACCESS_TOKEN_SECRET as string, { expiresIn: 0 });
 
             const result = await server
-                .post('/users/logout')
+                .post('/auth/logout')
                 .send({ refreshToken: currentRefreshToken })
                 .set('Authorization', `Bearer ${accessToken}`);
 
@@ -85,7 +85,7 @@ describe('POST /users/token/refresh', () => {
             const refreshToken = signJwt({ id: user.id }, process.env.REFRESH_TOKEN_SECRET as string);
             const accessToken = signJwt({ id: user.id }, process.env.ACCESS_TOKEN_SECRET as string);
 
-            const result = await server.post('/users/logout').send({ refreshToken }).set('Authorization', `Bearer ${accessToken}`);
+            const result = await server.post('/auth/logout').send({ refreshToken }).set('Authorization', `Bearer ${accessToken}`);
 
             expect(result.status).toBe(401);
         });

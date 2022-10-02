@@ -11,7 +11,7 @@ import { signJwt } from '../../../src/utlis/jwtUtils';
 
 const server = supertest(app);
 
-describe('POST /users/token/refresh', () => {
+describe('POST /auth/refresh', () => {
     beforeEach(async () => {
         await deleteAllData();
     });
@@ -26,7 +26,7 @@ describe('POST /users/token/refresh', () => {
                 session: { refreshToken: currentRefreshToken },
             } = await createScenarioOneUserWithOneSession();
 
-            const result = await server.post('/users/token/refresh').send({ refreshToken: currentRefreshToken });
+            const result = await server.post('/auth/refresh').send({ refreshToken: currentRefreshToken });
 
             const oldSession = await prisma.session.findUnique({ where: { refreshToken: currentRefreshToken } });
             const newSession = await prisma.session.findUnique({ where: { refreshToken: result.body.refreshToken } });
@@ -46,7 +46,7 @@ describe('POST /users/token/refresh', () => {
 
             const validRefreshTokenButNoCorrespondingSession = signJwt({ id: user.id }, process.env.REFRESH_TOKEN_SECRET as string);
 
-            const result = await server.post('/users/token/refresh').send({ refreshToken: validRefreshTokenButNoCorrespondingSession });
+            const result = await server.post('/auth/refresh').send({ refreshToken: validRefreshTokenButNoCorrespondingSession });
 
             const oldSession = await prisma.session.findMany({ where: { userId: user.id } });
 
@@ -61,7 +61,7 @@ describe('POST /users/token/refresh', () => {
                 session: { refreshToken: expiredRefreshToken },
             } = await createScenarioOneUserWithOneExpiredSession();
 
-            const result = await server.post('/users/token/refresh').send({ refreshToken: expiredRefreshToken });
+            const result = await server.post('/auth/refresh').send({ refreshToken: expiredRefreshToken });
 
             const oldSession = await prisma.session.findUnique({ where: { refreshToken: expiredRefreshToken } });
 

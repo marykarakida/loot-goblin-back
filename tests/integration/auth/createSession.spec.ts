@@ -8,7 +8,7 @@ import { createScenarioOneUserWithOneSession, deleteAllData, disconnectPrisma } 
 
 const server = supertest(app);
 
-describe('POST /users/login', () => {
+describe('POST /auth/login', () => {
     beforeEach(async () => {
         await deleteAllData();
     });
@@ -21,7 +21,7 @@ describe('POST /users/login', () => {
         it('should return status code 200, an access and refresh token and create new session', async () => {
             const { loginData } = await createScenarioOneUserWithOneSession();
 
-            const result = await server.post('/users/login').send(loginData);
+            const result = await server.post('/auth/login').send(loginData);
 
             const createdSession = await prisma.session.findUnique({ where: { refreshToken: result.body.refreshToken } });
 
@@ -34,7 +34,7 @@ describe('POST /users/login', () => {
         it('should return status code 200, an access and refresh token and allow to create multiple session', async () => {
             const { user, loginData } = await createScenarioOneUserWithOneSession();
 
-            const result = await server.post('/users/login').send(loginData);
+            const result = await server.post('/auth/login').send(loginData);
 
             const createdSession = await prisma.session.findMany({ where: { userId: user.id } });
 
@@ -46,7 +46,7 @@ describe('POST /users/login', () => {
     describe('given that no account is linked to the email sent in login data', () => {
         it('should return status code 401 and not create a new session', async () => {
             const invalidloginData = { email: faker.internet.email(), password: faker.internet.password() };
-            const result = await server.post('/users/login').send(invalidloginData);
+            const result = await server.post('/auth/login').send(invalidloginData);
 
             expect(result.status).toBe(401);
         });
@@ -58,7 +58,7 @@ describe('POST /users/login', () => {
 
             const loginDataWithWrongPwd = { ...loginData, password: faker.internet.password() };
 
-            const result = await server.post('/users/login').send(loginDataWithWrongPwd);
+            const result = await server.post('/auth/login').send(loginDataWithWrongPwd);
 
             expect(result.status).toBe(401);
         });
