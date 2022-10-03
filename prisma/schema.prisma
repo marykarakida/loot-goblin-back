@@ -29,3 +29,9 @@ model Session {
 
   @@map("sessions")
 }
+
+model Class {
+  id   String @id @default(uuid())
+  name String @unique
+  icon String
+}
