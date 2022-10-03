@@ -34,4 +34,14 @@ model Class {
   id   String @id @default(uuid())
   name String @unique
   icon String
+
+  @@map("classes")
+}
+
+model Category {
+  id   String @id @default(uuid())
+  name String @unique
+  icon String
+
+  @@map("categories")
 }
