@@ -38,6 +38,13 @@ model Class {
   @@map("classes")
 }
 
+model Race {
+  id   String @id @default(uuid())
+  name String @unique
+
+  @@map("races")
+}
+
 model Category {
   id   String @id @default(uuid())
   name String @unique
