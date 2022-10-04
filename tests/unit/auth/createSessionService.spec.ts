@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import sessionService from '../../../src/services/sessions';
+import authService from '../../../src/services/auth';
 import sessionRepository from '../../../src/repositories/sessions';
 import userRepository from '../../../src/repositories/users';
 
@@ -37,7 +37,7 @@ describe('Create Session Service', () => {
             jest.spyOn(jwtUtils, 'signJwt').mockReturnValueOnce(mockRefreshToken);
             jest.spyOn(sessionRepository, 'createSession').mockResolvedValueOnce();
 
-            await expect(sessionService.createSession(mockLoginData)).resolves.toEqual({
+            await expect(authService.createSession(mockLoginData)).resolves.toEqual({
                 accessToken: mockAccessToken,
                 refreshToken: mockRefreshToken,
             });
@@ -55,9 +55,7 @@ describe('Create Session Service', () => {
             jest.spyOn(userRepository, 'findUserByEmail').mockResolvedValueOnce(null);
             jest.spyOn(sessionRepository, 'createSession');
 
-            await expect(sessionService.createSession(mockLoginData)).rejects.toEqual(
-                expect.objectContaining({ type: 'error_unauthorized' })
-            );
+            await expect(authService.createSession(mockLoginData)).rejects.toEqual(expect.objectContaining({ type: 'error_unauthorized' }));
 
             expect(userRepository.findUserByEmail).toBeCalledTimes(1);
             expect(sessionRepository.createSession).not.toBeCalled();
@@ -73,7 +71,7 @@ describe('Create Session Service', () => {
             jest.spyOn(userRepository, 'findUserByEmail').mockResolvedValueOnce(mockUser);
             jest.spyOn(sessionRepository, 'createSession');
 
-            await expect(sessionService.createSession(mockInvalidLoginData)).rejects.toEqual(
+            await expect(authService.createSession(mockInvalidLoginData)).rejects.toEqual(
                 expect.objectContaining({ type: 'error_unauthorized' })
             );
 

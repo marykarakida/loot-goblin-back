@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import sessionService from '../../../src/services/sessions';
+import authService from '../../../src/services/auth';
 import sessionRepository from '../../../src/repositories/sessions';
 
 describe('Finish Session Service', () => {
@@ -22,7 +22,7 @@ describe('Finish Session Service', () => {
             jest.spyOn(sessionRepository, 'findSessionByRefreshToken').mockResolvedValue(mockSession);
             jest.spyOn(sessionRepository, 'deleteSession').mockResolvedValue();
 
-            await expect(sessionService.finishSession(mockCurrentRefreshToken)).resolves.not.toThrow();
+            await expect(authService.finishSession(mockCurrentRefreshToken)).resolves.not.toThrow();
 
             expect(sessionRepository.findSessionByRefreshToken).toBeCalledTimes(1);
             expect(sessionRepository.deleteSession).toBeCalledTimes(1);
@@ -37,7 +37,7 @@ describe('Finish Session Service', () => {
             jest.spyOn(sessionRepository, 'findSessionByRefreshToken').mockResolvedValue(null);
             jest.spyOn(sessionRepository, 'deleteSession');
 
-            await expect(sessionService.finishSession(mockCurrentRefreshToken)).resolves.not.toThrow();
+            await expect(authService.finishSession(mockCurrentRefreshToken)).resolves.not.toThrow();
 
             expect(sessionRepository.findSessionByRefreshToken).toBeCalledTimes(1);
             expect(sessionRepository.deleteSession).not.toBeCalled();

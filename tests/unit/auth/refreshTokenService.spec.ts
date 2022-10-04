@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import sessionService from '../../../src/services/sessions';
+import authService from '../../../src/services/auth';
 import sessionRepository from '../../../src/repositories/sessions';
 
 import * as jwtUtils from '../../../src/utlis/jwtUtils';
@@ -36,7 +36,7 @@ describe('Refresh Token Service', () => {
             jest.spyOn(jwtUtils, 'signJwt').mockReturnValueOnce(mockNewRefreshToken);
             jest.spyOn(sessionRepository, 'updateSession').mockResolvedValueOnce();
 
-            await expect(sessionService.refreshToken(mockCurrentRefreshToken)).resolves.toEqual({
+            await expect(authService.refreshToken(mockCurrentRefreshToken)).resolves.toEqual({
                 accessToken: mockNewAccessToken,
                 refreshToken: mockNewRefreshToken,
             });
@@ -57,7 +57,7 @@ describe('Refresh Token Service', () => {
             jest.spyOn(jwtUtils, 'verifyJwt').mockReturnValueOnce(mockValidAndNotExpiredDecodeTokenReturnData);
             jest.spyOn(sessionRepository, 'updateSession');
 
-            await expect(sessionService.refreshToken(mockValidRefreshTokenButNotFoundInSession)).rejects.toEqual(
+            await expect(authService.refreshToken(mockValidRefreshTokenButNotFoundInSession)).rejects.toEqual(
                 expect.objectContaining({ type: 'error_forbidden' })
             );
 
@@ -81,7 +81,7 @@ describe('Refresh Token Service', () => {
             jest.spyOn(sessionRepository, 'deleteSession').mockResolvedValueOnce();
             jest.spyOn(sessionRepository, 'updateSession');
 
-            await expect(sessionService.refreshToken(mockCurrentRefreshToken)).rejects.toEqual(
+            await expect(authService.refreshToken(mockCurrentRefreshToken)).rejects.toEqual(
                 expect.objectContaining({ type: 'error_forbidden' })
             );
 

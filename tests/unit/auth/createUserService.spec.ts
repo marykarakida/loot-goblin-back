@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import userService from '../../../src/services/users';
+import authService from '../../../src/services/auth';
 import userRepository from '../../../src/repositories/users';
 
 import { hashPassword } from '../../../src/utlis/cryptUtils';
@@ -30,7 +30,7 @@ describe('Create User Service', () => {
             jest.spyOn(userRepository, 'findUserByUsername').mockResolvedValueOnce(null);
             jest.spyOn(userRepository, 'createUser');
 
-            await expect(userService.createUser(mockCreateUserData)).resolves.not.toThrow();
+            await expect(authService.createUser(mockCreateUserData)).resolves.not.toThrow();
 
             expect(userRepository.findUserByEmail).toBeCalledTimes(1);
             expect(userRepository.findUserByUsername).toBeCalledTimes(1);
@@ -47,7 +47,7 @@ describe('Create User Service', () => {
             jest.spyOn(userRepository, 'findUserByUsername').mockResolvedValueOnce(null);
             jest.spyOn(userRepository, 'createUser');
 
-            await expect(userService.createUser(mockCreateUserData)).rejects.toEqual(expect.objectContaining({ type: 'error_conflict' }));
+            await expect(authService.createUser(mockCreateUserData)).rejects.toEqual(expect.objectContaining({ type: 'error_conflict' }));
 
             expect(userRepository.findUserByEmail).toBeCalledTimes(1);
             expect(userRepository.findUserByUsername).toBeCalledTimes(1);
@@ -64,7 +64,7 @@ describe('Create User Service', () => {
             jest.spyOn(userRepository, 'findUserByUsername').mockResolvedValueOnce(mockAlreadyCreatedUser);
             jest.spyOn(userRepository, 'createUser');
 
-            await expect(userService.createUser(mockCreateUserData)).rejects.toEqual(expect.objectContaining({ type: 'error_conflict' }));
+            await expect(authService.createUser(mockCreateUserData)).rejects.toEqual(expect.objectContaining({ type: 'error_conflict' }));
 
             expect(userRepository.findUserByEmail).toBeCalledTimes(1);
             expect(userRepository.findUserByUsername).toBeCalledTimes(1);

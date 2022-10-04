@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-import sessionService from '../services/sessions';
+import authService from '../services/auth';
 
 import { verifyJwt } from '../utlis/jwtUtils';
 import { unauthorizedError } from '../utlis/errorUtils';
@@ -18,7 +18,7 @@ export async function validateToken(req: Request, res: Response, next: NextFunct
         throw unauthorizedError('Access token is invalid or has expired');
     }
 
-    const sessions = await sessionService.getUserSessions(payload!.id);
+    const sessions = await authService.getUserSessions(payload!.id);
 
     // user has no active sessions
     if (sessions.length === 0) {

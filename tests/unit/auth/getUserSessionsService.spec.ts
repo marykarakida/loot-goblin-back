@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import sessionService from '../../../src/services/sessions';
+import authService from '../../../src/services/auth';
 import sessionRepository from '../../../src/repositories/sessions';
 
 describe('Get User Service', () => {
@@ -21,7 +21,7 @@ describe('Get User Service', () => {
         it('should return a list with one element', async () => {
             jest.spyOn(sessionRepository, 'findUserSessions').mockResolvedValue([mockSession]);
 
-            await expect(sessionService.getUserSessions(mockUserId)).resolves.toHaveLength(1);
+            await expect(authService.getUserSessions(mockUserId)).resolves.toHaveLength(1);
 
             expect(sessionRepository.findUserSessions).toBeCalledTimes(1);
 
