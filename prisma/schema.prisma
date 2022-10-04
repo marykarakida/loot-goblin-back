@@ -11,12 +11,13 @@ datasource db {
 }
 
 model User {
-  id       String    @id @default(uuid())
-  email    String    @unique
-  username String    @unique
-  password String
-  picture  String
-  Session  Session[]
+  id        String      @id @default(uuid())
+  email     String      @unique
+  username  String      @unique
+  password  String
+  picture   String
+  Session   Session[]
+  Character Character[]
 
   @@map("users")
 }
@@ -31,16 +32,18 @@ model Session {
 }
 
 model Class {
-  id   String @id @default(uuid())
-  name String @unique
-  icon String
+  id         String      @id @default(uuid())
+  name       String      @unique
+  icon       String
+  characters Character[]
 
   @@map("classes")
 }
 
 model Race {
-  id   String @id @default(uuid())
-  name String @unique
+  id    String      @id @default(uuid())
+  name  String      @unique
+  races Character[]
 
   @@map("races")
 }
@@ -62,4 +65,16 @@ model Equipment {
   categoryName String
 
   @@map("equipments")
+}
+
+model Character {
+  id      String  @id @default(uuid())
+  name    String
+  picture String?
+  race    Race    @relation(fields: [raceId], references: [id])
+  raceId  String
+  class   Class   @relation(fields: [classId], references: [id])
+  classId String
+  user    User    @relation(fields: [userId], references: [id])
+  userId  String
 }
