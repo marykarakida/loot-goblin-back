@@ -1,16 +1,8 @@
 import { User } from '@prisma/client';
 
+type UserData = Omit<User, 'id'>;
 type LoginData = Pick<User, 'email' | 'password'>;
 
-interface CreateUserData {
-    email: string;
-    username: string;
-    password: string;
-    picture: string;
-}
+interface CreateUserData extends UserData {}
 
-interface RegisterData extends CreateUserData {
-    passwordConfirmation: string;
-}
-
-export { User, CreateUserData, LoginData, RegisterData };
+export { User, UserData, LoginData, CreateUserData };
