@@ -10,6 +10,9 @@
         "test:unit": "dotenv jest -- -i --coverage --testPathPattern=tests/unit",
         "test:integration": "dotenv -e .env.test prisma migrate dev && dotenv -e .env.test jest -- -i --testPathPattern=tests/integration"
     },
+    "prisma": {
+        "seed": "ts-node-dev prisma/seed.ts"
+    },
     "keywords": [],
     "author": "",
     "license": "ISC",
