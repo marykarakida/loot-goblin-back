@@ -46,9 +46,20 @@ model Race {
 }
 
 model Category {
-  id   String @id @default(uuid())
-  name String @unique
-  icon String
+  id         String      @id @default(uuid())
+  name       String      @unique
+  icon       String
+  equipments Equipment[]
 
   @@map("categories")
+}
+
+model Equipment {
+  id           String   @id @default(uuid())
+  name         String   @unique
+  picture      String
+  category     Category @relation(fields: [categoryName], references: [name], onDelete: Cascade)
+  categoryName String
+
+  @@map("equipments")
 }
