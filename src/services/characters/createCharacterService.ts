@@ -46,5 +46,5 @@ export async function createCharacterService(characterData: CreateCharacterData)
     await ensureUserHasNotReachedLimitOfCharactersPerUser(userId);
 
     const character = await characterRepository.createCharacter({ name, picture, raceId: raceData.id, classId: classData.id, userId });
-    await inventoryRepository.createCharacterInventory(character.id);
+    await inventoryRepository.createCharacterInventory({ characterId: character.id });
 }
