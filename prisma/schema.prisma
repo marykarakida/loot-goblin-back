@@ -77,4 +77,6 @@ model Character {
   classId String
   user    User    @relation(fields: [userId], references: [id])
   userId  String
+
+  @@map("characters")
 }
