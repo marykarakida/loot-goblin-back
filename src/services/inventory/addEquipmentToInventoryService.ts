@@ -1,4 +1,4 @@
-import equipmentRepository from '../../repositories/equipment';
+import equipmentRepository from '../../repositories/equipments';
 import equipmentOnInventoryRepository from '../../repositories/equipmentsOnInventory';
 import inventoryRepository from '../../repositories/inventories';
 
