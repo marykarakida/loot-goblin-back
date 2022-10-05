@@ -58,11 +58,6 @@ async function main() {
         picture: faker.image.business(400, 400, true),
     }));
 
-    await prisma.equipment.createMany({
-        data: adventuringGearsList,
-        skipDuplicates: true,
-    });
-
     const {
         data: { equipment: lightArmors },
     } = await axios.get(`${DND_API}/equipment-categories/light-armor`);
