@@ -1,5 +1,9 @@
-import { Inventory } from '@prisma/client';
+import { Character, Inventory } from '@prisma/client';
 
 type InventoryData = Omit<Inventory, 'id'>;
 
-export { Inventory, InventoryData };
+interface InventoryWithCharacterData extends Inventory {
+    character: Character;
+}
+
+export { Inventory, InventoryData, InventoryWithCharacterData };

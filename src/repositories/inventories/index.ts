@@ -1,14 +1,16 @@
-import { findCharacterInventory, createCharacterInventory } from './inventoryRepository';
+import { findInventoryOwnerById, findInventoryByCharacterId, createCharacterInventory } from './inventoryRepository';
 
-import { Inventory, InventoryData } from '../../types/inventories';
+import { Inventory, InventoryData, InventoryWithCharacterData } from '../../types/inventories';
 
 interface IInventoryRepository {
-    findCharacterInventory(characterId: string): Promise<Inventory | null>;
+    findInventoryOwnerById(id: string): Promise<InventoryWithCharacterData | null>;
+    findInventoryByCharacterId(characterId: string): Promise<Inventory | null>;
     createCharacterInventory(inventoryData: InventoryData): Promise<void>;
 }
 
 const inventoryRepository: IInventoryRepository = {
-    findCharacterInventory,
+    findInventoryOwnerById,
+    findInventoryByCharacterId,
     createCharacterInventory,
 };
 
