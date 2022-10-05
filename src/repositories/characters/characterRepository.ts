@@ -8,6 +8,8 @@ export async function findAllUserCharacters(userId: string): Promise<Character[]
     return result;
 }
 
-export async function createCharacter(characterData: CharacterData): Promise<void> {
-    await prisma.character.create({ data: characterData });
+export async function createCharacter(characterData: CharacterData): Promise<Character> {
+    const result = await prisma.character.create({ data: characterData });
+
+    return result;
 }

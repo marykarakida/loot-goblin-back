@@ -1,5 +1,6 @@
 import characterRepository from '../../repositories/characters';
 import classRepository from '../../repositories/classes';
+import inventoryRepository from '../../repositories/inventories';
 import raceRepository from '../../repositories/races';
 
 import characterConfig from '../../configs/characterConfig';
@@ -44,5 +45,6 @@ export async function createCharacterService(characterData: CreateCharacterData)
 
     await ensureUserHasNotReachedLimitOfCharactersPerUser(userId);
 
-    await characterRepository.createCharacter({ name, picture, raceId: raceData.id, classId: classData.id, userId });
+    const character = await characterRepository.createCharacter({ name, picture, raceId: raceData.id, classId: classData.id, userId });
+    await inventoryRepository.createCharacterInventory(character.id);
 }

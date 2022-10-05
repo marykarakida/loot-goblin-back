@@ -4,7 +4,7 @@ import { Character, CharacterData } from '../../types/characters';
 
 interface ICharacterRepository {
     findAllUserCharacters(userId: string): Promise<Character[]>;
-    createCharacter(characterData: CharacterData): Promise<void>;
+    createCharacter(characterData: CharacterData): Promise<Character>;
 }
 
 const characterRepository: ICharacterRepository = {
