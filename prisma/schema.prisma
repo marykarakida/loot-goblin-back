@@ -68,15 +68,24 @@ model Equipment {
 }
 
 model Character {
-  id      String  @id @default(uuid())
-  name    String
-  picture String?
-  race    Race    @relation(fields: [raceId], references: [id])
-  raceId  String
-  class   Class   @relation(fields: [classId], references: [id])
-  classId String
-  user    User    @relation(fields: [userId], references: [id])
-  userId  String
+  id        String     @id @default(uuid())
+  name      String
+  picture   String?
+  race      Race       @relation(fields: [raceId], references: [id])
+  raceId    String
+  class     Class      @relation(fields: [classId], references: [id])
+  classId   String
+  user      User       @relation(fields: [userId], references: [id])
+  userId    String
+  Inventory Inventory?
 
   @@map("characters")
+}
+
+model Inventory {
+  id          String    @id @default(uuid())
+  character   Character @relation(fields: [characterId], references: [id])
+  characterId String    @unique
+
+  @@map("inventories")
 }
