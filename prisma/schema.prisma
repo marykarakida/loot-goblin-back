@@ -58,11 +58,12 @@ model Category {
 }
 
 model Equipment {
-  id           String   @id @default(uuid())
-  name         String   @unique
-  picture      String
-  category     Category @relation(fields: [categoryName], references: [name], onDelete: Cascade)
-  categoryName String
+  id                    String                  @id @default(uuid())
+  name                  String                  @unique
+  picture               String
+  category              Category                @relation(fields: [categoryName], references: [name], onDelete: Cascade)
+  categoryName          String
+  EquipmentsOnInventory EquipmentsOnInventory[]
 
   @@map("equipments")
 }
@@ -83,9 +84,27 @@ model Character {
 }
 
 model Inventory {
-  id          String    @id @default(uuid())
-  character   Character @relation(fields: [characterId], references: [id])
-  characterId String    @unique
+  id                    String                  @id @default(uuid())
+  character             Character               @relation(fields: [characterId], references: [id])
+  characterId           String                  @unique
+  EquipmentsOnInventory EquipmentsOnInventory[]
 
   @@map("inventories")
+}
+
+model EquipmentsOnInventory {
+  id          String          @id @default(uuid())
+  inventory   Inventory       @relation(fields: [inventoryId], references: [id])
+  inventoryId String
+  equipment   Equipment       @relation(fields: [equipmentId], references: [id])
+  equipmentId String
+  position    Int
+  status      EquipmentStatus
+
+  @@map("equipmentsOnInventory")
+}
+
+enum EquipmentStatus {
+  new
+  viewed
 }
