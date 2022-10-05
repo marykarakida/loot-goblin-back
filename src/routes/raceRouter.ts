@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { getAllRacesController } from '../controllers/race';
+import { getAllRacesController } from '../controllers/races';
 import { validateToken } from '../middlewares/validateTokenMiddleware';
 
 const raceRouter = Router();
