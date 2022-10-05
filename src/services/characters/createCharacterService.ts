@@ -27,7 +27,7 @@ async function ensureClassExistsByName(className: ClassNameType): Promise<Class>
     return validClass;
 }
 
-async function ensureUserHasNotReachedLimitOfCharactersPerUser(userId: string) {
+async function ensureUserHasNotReachedLimitOfCharactersPerUser(userId: string): Promise<void> {
     const userCharacters = await characterRepository.findAllUserCharacters(userId);
 
     if (userCharacters.length >= characterConfig.LIMIT_CHARACTERS_PER_USER) {

@@ -1,12 +1,6 @@
 import { getAllRacesService } from './getAllRacesService';
 
-import { Race } from '../../types/races';
-
-interface IRaceService {
-    getAllRaces(): Promise<Race[]>;
-}
-
-const raceService: IRaceService = {
+const raceService = {
     getAllRaces: getAllRacesService,
 };
 

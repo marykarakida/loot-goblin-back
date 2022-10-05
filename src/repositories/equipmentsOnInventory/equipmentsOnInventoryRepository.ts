@@ -2,7 +2,7 @@ import prisma from '../../database';
 
 import { EquipmentsOnInventory, EquipmentsOnInventoryData } from '../../types/equipmentsOnInventory';
 
-export async function findAllEquipmentsOnInventoryByInventoryId(inventoryId: string) {
+export async function findAllEquipmentsOnInventoryByInventoryId(inventoryId: string): Promise<EquipmentsOnInventory[]> {
     const result = await prisma.equipmentsOnInventory.findMany({ where: { inventoryId }, orderBy: { position: 'asc' } });
 
     return result;

@@ -21,7 +21,7 @@ async function ensureEquipmentExists(equipmentId: string): Promise<void> {
     if (!validEquipment) throw notFoundError('Equipment not found');
 }
 
-async function ensureEquipmentIsNotOnInventoryAlready(inventoryId: string, equipmentId: string) {
+async function ensureEquipmentIsNotOnInventoryAlready(inventoryId: string, equipmentId: string): Promise<void> {
     const equipmentOnInventory = await equipmentOnInventoryRepository.findEquipmentOnInventory(inventoryId, equipmentId);
 
     if (equipmentOnInventory) throw conflictError('Equipment has already beign added to character1s inventory');
