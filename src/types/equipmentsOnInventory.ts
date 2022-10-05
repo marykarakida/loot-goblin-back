@@ -1,7 +1,13 @@
-import { EquipmentsOnInventory } from '@prisma/client';
+import { Equipment, EquipmentsOnInventory } from '@prisma/client';
+
+import { EquipmentWithCategory } from './equipments';
 
 type EquipmentsOnInventoryData = Omit<EquipmentsOnInventory, 'id'>;
 
 type CreateEquipmentOnInventoryData = Omit<EquipmentsOnInventory, 'id' | 'status' | 'position'>;
 
-export { EquipmentsOnInventory, EquipmentsOnInventoryData, CreateEquipmentOnInventoryData };
+interface EquipmentOnInventoryWithCategoryData extends EquipmentsOnInventory {
+    equipment: EquipmentWithCategory;
+}
+
+export { EquipmentsOnInventory, EquipmentsOnInventoryData, CreateEquipmentOnInventoryData, EquipmentOnInventoryWithCategoryData };

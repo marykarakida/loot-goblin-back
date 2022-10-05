@@ -1,3 +1,7 @@
-import { Equipment } from '@prisma/client';
+import { Category, Equipment } from '@prisma/client';
 
-export { Equipment };
+interface EquipmentWithCategory extends Equipment {
+    category: Category;
+}
+
+export { Equipment, EquipmentWithCategory };

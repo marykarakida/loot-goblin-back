@@ -1,9 +1,21 @@
 import prisma from '../../database';
 
-import { EquipmentsOnInventory, EquipmentsOnInventoryData } from '../../types/equipmentsOnInventory';
+import { EquipmentsOnInventory, EquipmentsOnInventoryData, EquipmentOnInventoryWithCategoryData } from '../../types/equipmentsOnInventory';
 
 export async function findAllEquipmentsOnInventoryByInventoryId(inventoryId: string): Promise<EquipmentsOnInventory[]> {
     const result = await prisma.equipmentsOnInventory.findMany({ where: { inventoryId }, orderBy: { position: 'asc' } });
+
+    return result;
+}
+
+export async function findAllEquipmentsOnInventoryWithCategoryByInventoryId(
+    inventoryId: string
+): Promise<EquipmentOnInventoryWithCategoryData[]> {
+    const result = await prisma.equipmentsOnInventory.findMany({
+        where: { inventoryId },
+        include: { equipment: { include: { category: true } } },
+        orderBy: { position: 'asc' },
+    });
 
     return result;
 }
