@@ -6,10 +6,10 @@ import { validateSchema } from '../middlewares/validateSchemaMiddleware';
 
 const inventoryRouter = Router();
 
-inventoryRouter.get('/:id', validateToken, getCharacterInventoryController);
+inventoryRouter.get('/:inventoryId', validateToken, getCharacterInventoryController);
 
 inventoryRouter.post(
-    '/:id/equipments',
+    '/:inventoryId/equipments',
     validateToken,
     validateSchema('createEquipmentOnInventorySchema'),
     addEquipmentToInventoryController

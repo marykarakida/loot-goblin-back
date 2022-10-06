@@ -6,7 +6,7 @@ import { CreateEquipmentOnInventoryData } from '../../types/equipmentsOnInventor
 
 export async function addEquipmentToInventoryController(req: Request, res: Response) {
     const equipmentOnInventoryData: Omit<CreateEquipmentOnInventoryData, 'inventoryId'> = req.body;
-    const inventoryId = req.params.id;
+    const inventoryId = req.params.inventoryId;
     const userId = res.locals.userId;
 
     await inventoryService.addEquipmentToInventory({ ...equipmentOnInventoryData, inventoryId }, userId);
