@@ -1,4 +1,4 @@
-import { Equipment, EquipmentsOnInventory } from '@prisma/client';
+import { EquipmentsOnInventory } from '@prisma/client';
 
 import { EquipmentWithCategory } from './equipments';
 
@@ -10,4 +10,16 @@ interface EquipmentOnInventoryWithCategoryData extends EquipmentsOnInventory {
     equipment: EquipmentWithCategory;
 }
 
-export { EquipmentsOnInventory, EquipmentsOnInventoryData, CreateEquipmentOnInventoryData, EquipmentOnInventoryWithCategoryData };
+interface ChangeEquipmentPositionData {
+    initialPosition: number;
+    finalPosition: number;
+    equipmentId: string;
+}
+
+export {
+    EquipmentsOnInventory,
+    EquipmentsOnInventoryData,
+    CreateEquipmentOnInventoryData,
+    EquipmentOnInventoryWithCategoryData,
+    ChangeEquipmentPositionData,
+};

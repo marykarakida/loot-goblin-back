@@ -31,7 +31,9 @@ async function ensureInventoryHasSpace(inventoryId: string): Promise<number> {
     const equipmentsOnUserInventory = await equipmentOnInventoryRepository.findAllEquipmentsOnInventoryByInventoryId(inventoryId);
 
     if (equipmentsOnUserInventory.length >= inventoryConfig.LIMIT_INVENTORY_SPACE) {
-        throw conflictError("Cannot add more than 50 itens in character's inventory. Please remove one if you wish to add another.");
+        throw conflictError(
+            `Cannot add more than ${inventoryConfig.LIMIT_INVENTORY_SPACE} itens in character's inventory. Please remove one if you wish to add another.`
+        );
     }
 
     // get the lowest position free space on inventory

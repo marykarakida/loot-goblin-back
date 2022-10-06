@@ -1,6 +1,10 @@
 import { Router } from 'express';
 
-import { addEquipmentToInventoryController, getCharacterInventoryController } from '../controllers/inventory';
+import {
+    addEquipmentToInventoryController,
+    getCharacterInventoryController,
+    swapEquipmentPositionController,
+} from '../controllers/inventory';
 import { validateToken } from '../middlewares/validateTokenMiddleware';
 import { validateSchema } from '../middlewares/validateSchemaMiddleware';
 
@@ -13,6 +17,13 @@ inventoryRouter.post(
     validateToken,
     validateSchema('createEquipmentOnInventorySchema'),
     addEquipmentToInventoryController
+);
+
+inventoryRouter.put(
+    '/:inventoryId/equipments/position',
+    validateToken,
+    validateSchema('swapEquipmentPositionSchema'),
+    swapEquipmentPositionController
 );
 
 export default inventoryRouter;
