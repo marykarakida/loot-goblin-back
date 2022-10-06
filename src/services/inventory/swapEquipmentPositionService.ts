@@ -36,7 +36,7 @@ export async function swapEquipmentPositionService(
     const { initialPosition, finalPosition, equipmentId } = swapData;
     const { LIMIT_INVENTORY_SPACE } = inventoryConfig;
 
-    if (initialPosition < LIMIT_INVENTORY_SPACE || finalPosition < LIMIT_INVENTORY_SPACE) {
+    if (initialPosition > LIMIT_INVENTORY_SPACE || finalPosition > LIMIT_INVENTORY_SPACE) {
         throw wrongSchemaError(`Position must be less than or equal to ${LIMIT_INVENTORY_SPACE}`);
     }
 
