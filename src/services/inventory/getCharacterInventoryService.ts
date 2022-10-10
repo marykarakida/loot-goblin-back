@@ -16,9 +16,9 @@ export async function getCharacterInventoryService(inventoryId: string, userId: 
     const equipmentsOnInventory = await equipmentOnInventoryRepository.findAllEquipmentsOnInventoryWithCategoryByInventoryId(inventoryId);
 
     return equipmentsOnInventory.reduce(
-        (prev, { id, position, quantity, status, equipment: { categoryName, ...equipmentData } }) => ({
+        (prev, { id, position, quantity, equipment: { categoryName, ...equipmentData } }) => ({
             ...prev,
-            [position]: { id, quantity, status, equipment: equipmentData },
+            [position]: { id, quantity, equipment: equipmentData },
         }),
         {}
     );
