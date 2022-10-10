@@ -6,8 +6,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model User {
@@ -93,20 +94,14 @@ model Inventory {
 }
 
 model EquipmentsOnInventory {
-  id          String          @id @default(uuid())
-  inventory   Inventory       @relation(fields: [inventoryId], references: [id])
+  id          String    @id @default(uuid())
+  inventory   Inventory @relation(fields: [inventoryId], references: [id])
   inventoryId String
-  equipment   Equipment       @relation(fields: [equipmentId], references: [id])
+  equipment   Equipment @relation(fields: [equipmentId], references: [id])
   equipmentId String
   position    Int
   quantity    Int
-  status      EquipmentStatus
 
   @@unique([inventoryId, equipmentId])
   @@map("equipmentsOnInventory")
-}
-
-enum EquipmentStatus {
-  new
-  viewed
 }

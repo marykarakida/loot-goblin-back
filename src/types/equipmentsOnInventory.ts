@@ -4,7 +4,7 @@ import { EquipmentWithCategory } from './equipments';
 
 type EquipmentsOnInventoryData = Omit<EquipmentsOnInventory, 'id'>;
 
-type CreateEquipmentOnInventoryData = Omit<EquipmentsOnInventory, 'id' | 'status' | 'position'>;
+type CreateEquipmentOnInventoryData = Omit<EquipmentsOnInventory, 'id' | 'position'>;
 
 interface EquipmentOnInventoryWithCategoryData extends EquipmentsOnInventory {
     equipment: EquipmentWithCategory;
