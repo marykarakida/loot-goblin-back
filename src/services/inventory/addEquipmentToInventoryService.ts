@@ -57,5 +57,5 @@ export async function addEquipmentToInventoryService(
     await ensureEquipmentIsNotOnInventoryAlready(inventoryId, equipmentId);
     const position = await ensureInventoryHasSpace(inventoryId);
 
-    await equipmentOnInventoryRepository.createEquipmentOnInventory({ equipmentId, inventoryId, quantity, position, status: 'new' });
+    await equipmentOnInventoryRepository.createEquipmentOnInventory({ equipmentId, inventoryId, quantity, position });
 }
